@@ -1,0 +1,232 @@
+---
+const navItems = [
+    { name: 'Inicio', href: '#inicio' },
+    { name: 'Servicios', href: '#servicios' },
+    { name: 'Nosotros', href: '#nosotros' },
+    { name: 'Contacto', href: '#contacto' },
+];
+---
+
+<header>
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <a href="#inicio">
+                    <span class="logo-text">AsistNova</span>
+                </a>
+            </div>
+            
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-links">
+                {navItems.map((item) => (
+                    <li>
+                        <a href={item.href}>{item.name}</a>
+                    </li>
+                ))}
+            </ul>
+
+            <div class="cta">
+                <a href="#contacto" class="btn-primary">Solicitar Información</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        z-index: 1000;
+    }
+
+    nav {
+        padding: 1rem 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+    }
+
+    .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1e293b;
+        text-decoration: none;
+        background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 8px;
+    }
+
+    .menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background: #1e293b;
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-links a {
+        color: #475569;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.95rem;
+        transition: color 0.3s ease;
+        position: relative;
+    }
+
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
+        transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+        color: #0ea5e9;
+    }
+
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+
+    .nav-links a.active {
+        color: #0ea5e9;
+    }
+
+    .nav-links a.active::after {
+        width: 100%;
+    }
+
+    .cta {
+        margin-left: auto;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .menu-toggle {
+            display: flex;
+        }
+
+        .nav-links {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            flex-direction: column;
+            background: white;
+            padding: 2rem;
+            gap: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .nav-links.active {
+            display: flex;
+        }
+
+        .cta {
+            display: none;
+        }
+    }
+</style>
+
+<script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuToggle?.addEventListener('click', () => {
+        navLinks?.classList.toggle('active');
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', (e) => {
+            e.preventDefault();
+            const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href');
+            const target = href ? document.querySelector(href) : null;
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+        
+                navLinks?.classList.remove('active');
+            }
+        });
+    });
+
+    const sections = document.querySelectorAll<HTMLElement>('section[id]');
+    const navItems = document.querySelectorAll<HTMLAnchorElement>('.nav-links a');
+    
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (window.scrollY >= (sectionTop - 100)) {
+                current = section.getAttribute('id') || '';
+            }
+        });
+    
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${current}`) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>

@@ -1,0 +1,99 @@
+---
+const stats = [
+    { number: '100+', label: 'Empresas Confían en Nosotros' },
+    { number: '99%', label: 'Satisfacción del Cliente' },
+    { number: '8+', label: 'Años de Experiencia' },
+    { number: '24/7', label: 'Acompañamiento Continuo' },
+];
+---
+
+<section class="stats">
+    <div class="container">
+        <div class="stats-grid">
+            {stats.map((stat, index) => (
+                <div class="stat-card" style={`animation-delay: ${index * 0.1}s`}>
+                    <h3 class="stat-number">{stat.number}</h3>
+                    <p class="stat-label">{stat.label}</p>
+                </div>
+            ))}
+        </div>
+    </div>
+</section>
+
+<style>
+    .stats {
+        padding: 4rem 2rem;
+        background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stats::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -10%;
+        width: 500px;
+        height: 500px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 3rem;
+    }
+
+    .stat-card {
+        text-align: center;
+        animation: fadeInUp 0.6s ease-out both;
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-label {
+        color: rgba(255, 255, 255, 0.95);
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .stats {
+            padding: 3rem 1.5rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+        }
+    }
+</style>

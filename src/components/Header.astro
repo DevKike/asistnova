@@ -12,7 +12,7 @@ const navItems = [
         <div class="container">
             <div class="logo">
                 <a href="#inicio">
-                    <span class="logo-text">AsistNova</span>
+                    <img src="/src/assets/main-logo.png" alt="AsistNova Logo">
                 </a>
             </div>
             
@@ -61,6 +61,27 @@ const navItems = [
         align-items: center;
         justify-content: space-between;
         gap: 2rem;
+    }
+
+    .logo {
+        flex-shrink: 0;
+    }
+
+    .logo a {
+        display: block;
+        line-height: 0;
+    }
+
+    .logo img {
+        height: 50px;
+        width: auto;
+        max-width: 200px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+
+    .logo img:hover {
+        transform: scale(1.05);
     }
 
     .logo-text {
@@ -150,6 +171,7 @@ const navItems = [
         font-size: 0.9rem;
         transition: all 0.3s ease;
         box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+        white-space: nowrap;
     }
 
     .btn-primary:hover {
@@ -158,6 +180,11 @@ const navItems = [
     }
 
     @media (max-width: 768px) {
+        .logo img {
+            height: 40px;
+            max-width: 150px;
+        }
+
         .menu-toggle {
             display: flex;
         }
